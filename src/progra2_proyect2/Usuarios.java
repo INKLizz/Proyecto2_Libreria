@@ -23,9 +23,6 @@ public class Usuarios implements Usuarios_Interfaz{
 
     //FOLDERS
     private RandomAccessFile users;
-    private RandomAccessFile games;
-    private RandomAccessFile music;
-    private RandomAccessFile chat;
 
     private static final String BASE_DIR = "usuarios/";
 
