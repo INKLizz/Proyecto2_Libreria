@@ -250,7 +250,7 @@ public class MusicPanel {
         songPanel.setBackground(Color.DARK_GRAY);
         songPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JLabel songTitleLabel = new JLabel(title);
+        JLabel songTitleLabel = new JLabel(title + " - " + artist);
         songTitleLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         songTitleLabel.setForeground(Color.WHITE);
 

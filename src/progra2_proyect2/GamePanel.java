@@ -39,7 +39,7 @@ public class GamePanel {
     public JPanel createGamesPanel(Administrador admin) {
         JPanel contentPanel = new JPanel(new BorderLayout());
         this.admin = admin;
-        // Search bar panel setup
+
         JPanel searchBarPanel = new JPanel(new BorderLayout());
         searchBarPanel.setBackground(Color.BLACK);
         JTextField searchField = new JTextField("");
