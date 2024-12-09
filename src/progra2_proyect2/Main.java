@@ -35,15 +35,19 @@ public class Main extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 Usuarios user = manager.InSession();
-                user.setActivo(false);
-                try {
-                    user.guardarEstadoActivo();
-                    user.guardarUsuario();
-                } catch (IOException ex) {
-                    System.out.println("No se pudo desactivar!");
+                if (user != null) {
+                    user.setActivo(false);
+                    try {
+                        user.guardarEstadoActivo();
+                        user.guardarUsuario();
+                    } catch (IOException ex) {
+                        System.out.println("No se pudo desactivar!");
+                    }
+                    System.out.println(user + "se desactivo");
+                    System.exit(0);
                 }
-                System.out.println(user + "se desactivo");
                 System.exit(0);
+
             }
         });
         JPanel panel = new JPanel();
