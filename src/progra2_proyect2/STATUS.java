@@ -14,12 +14,10 @@ public enum STATUS {
 
     private final String status;
 
-    // Constructor
     STATUS(String status) {
         this.status = status;
     }
 
-    // Getter for the status
     public String getStatus() {
         return status;
     }

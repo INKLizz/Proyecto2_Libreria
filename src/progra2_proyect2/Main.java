@@ -7,6 +7,8 @@ package progra2_proyect2;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.swing.*;
 
@@ -29,7 +31,21 @@ public class Main extends JFrame {
         JLabel title = new JLabel("BIENVENIDO A SU BIBLIOTECA VIRTUAL!");
         title.setForeground(Color.WHITE);
         title.setFont(new Font("Arial", Font.BOLD, 16));
-
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Usuarios user = manager.InSession();
+                user.setActivo(false);
+                try {
+                    user.guardarEstadoActivo();
+                    user.guardarUsuario();
+                } catch (IOException ex) {
+                    System.out.println("No se pudo desactivar!");
+                }
+                System.out.println(user + "se desactivo");
+                System.exit(0);
+            }
+        });
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
@@ -154,6 +170,7 @@ public class Main extends JFrame {
                         } else {
                             if (contra.equals(contraC)) {
                                 if (manager.AgregarUsers(usuario, contra)) {
+                                    manager.Login(usuario, contra);
                                     JOptionPane.showMessageDialog(null, "Se añadió el usuario exitosamente!");
                                     SubMenu menu = new SubMenu(manager);
                                     menu.setVisible(true);
@@ -265,7 +282,7 @@ public class Main extends JFrame {
                                 password.setText("");
                             }
                         }
-                    } 
+                    }
                 });
             }
         });

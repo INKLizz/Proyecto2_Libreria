@@ -19,7 +19,6 @@ public class Usuarios {
     private String password;
     private final Calendar fechaRegistro;
     private boolean activo;
-    private List<String> chatHistory;
     private String description;
 
     //FOLDERS
@@ -35,7 +34,6 @@ public class Usuarios {
         this.password = password;
         this.fechaRegistro = Calendar.getInstance();
         this.activo = true;
-        this.chatHistory = new ArrayList<>();
         this.description = "";
         icon = "DefaultIMAGE/guest.png";
 
@@ -58,14 +56,14 @@ public class Usuarios {
         crearFolder("chat");
     }
 
-    private void crearFolder(String folder) {
+    private final void crearFolder(String folder) {
         File directory = new File(BASE_DIR + nombre + "/" + folder);
         if (!directory.exists()) {
             directory.mkdirs();
         }
     }
 
-    private void initFiles() throws IOException {
+    private final void initFiles() throws IOException {
         users = new RandomAccessFile(getUserPath("userInfo.priv"), "rw");
 
         if (users.length() == 0) {
@@ -73,7 +71,7 @@ public class Usuarios {
         }
     }
 
-    public String getIcon() {
+    public final String getIcon() {
         return icon;
     }
 
@@ -101,11 +99,6 @@ public class Usuarios {
         users.writeBoolean(activo);
         users.writeUTF(description);
         users.writeUTF(icon);
-
-        users.writeInt(chatHistory.size());
-        for (String message : chatHistory) {
-            users.writeUTF(message);
-        }
     }
 
     public void cargarUsuario() throws IOException {
@@ -117,12 +110,6 @@ public class Usuarios {
         activo = users.readBoolean();
         description = users.readUTF();
         icon = users.readUTF();
-
-        int chatSize = users.readInt();
-        chatHistory.clear();
-        for (int indice = 0; indice < chatSize; indice++) {
-            chatHistory.add(users.readUTF());
-        }
     }
 
     public void guardarEstadoActivo() throws IOException {
