@@ -37,6 +37,7 @@ public class SubMenu extends JFrame {
     private boolean isAdmin = false;
 
     //CREACION DE PANELES
+    private JFrame nowPlayingDialog;
     private JPanel musicListPanel;
     private JPanel songListPanel;
     private int durationInSeconds;
@@ -615,7 +616,7 @@ public class SubMenu extends JFrame {
     }
 
     private void showNowPlayingPanel(Musica musica, File file) {
-        JFrame nowPlayingDialog = new JFrame("Now Playing");
+        nowPlayingDialog = new JFrame("Now Playing");
         nowPlayingDialog.setLayout(new BorderLayout());
 
         nowPlayingDialog.setSize(400, 500);
@@ -640,7 +641,7 @@ public class SubMenu extends JFrame {
         }
 
         JPanel songInfoPanel = new JPanel();
-        songInfoPanel.setLayout(new GridLayout(3, 1));  
+        songInfoPanel.setLayout(new GridLayout(3, 1));
         songInfoPanel.setBackground(Color.BLACK);
 
         JLabel titleLabel = new JLabel(musica.getTitulo(), SwingConstants.CENTER);
@@ -757,6 +758,10 @@ public class SubMenu extends JFrame {
 
                         // Add the action listener
                         songButton.addActionListener(e -> {
+                            if(nowPlayingDialog != null){
+                                nowPlayingDialog.dispose();
+                                stopMusic();
+                            }
                             showNowPlayingPanel(musica, musicFile);
                         });
 

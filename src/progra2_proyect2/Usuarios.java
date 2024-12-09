@@ -9,11 +9,6 @@ package progra2_proyect2;
  * @author Cristina Sabillon
  */
 import java.io.*;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 public class Usuarios {
@@ -138,69 +133,6 @@ public class Usuarios {
     public boolean leerEstadoActivo() throws IOException {
         users.seek(0);
         return users.readBoolean();
-    }
-
-    public static boolean borrar(File dir) {
-        Path path = dir.toPath();
-
-        try {
-            Files.walkFileTree(path, new SimpleFileVisitor<>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    System.out.println("Deleting file: " + file);
-                    Files.delete(file);
-                    return FileVisitResult.CONTINUE;
-                }
-
-                @Override
-                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                    if (exc != null) {
-                        System.err.println("Error visiting directory: " + dir + " - " + exc.getMessage());
-                        throw exc;
-                    }
-                    System.out.println("Deleting directory: " + dir);
-                    Files.delete(dir);
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-            return true;
-        } catch (IOException e) {
-            System.err.println("Failed to delete: " + dir + " - " + e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean hacerBorrar() {
-        File userDirectory = new File(BASE_DIR + nombre);
-
-        if (userDirectory.exists()) {
-            try {
-                if (users != null) {
-                    users.close();
-                }
-                if (games != null) {
-                    games.close();
-                }
-                if (music != null) {
-                    music.close();
-                }
-                if (chat != null) {
-                    chat.close();
-                }
-            } catch (IOException e) {
-                System.out.println("Error closing files: " + e.getMessage());
-            }
-
-            if (borrar(userDirectory)) {
-                System.out.println("User directory deleted successfully.");
-                return true;
-            } else {
-                System.out.println("Failed to delete user directory.");
-            }
-        } else {
-            System.out.println("User directory does not exist: " + userDirectory.getPath());
-        }
-        return false;
     }
 
     public String getNombre() {

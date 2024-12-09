@@ -23,6 +23,7 @@ import org.jaudiotagger.tag.Tag;
 
 public class MusicPanel {
 
+    private JFrame nowPlayingDialog;
     private String currentAlbum;
     private int currentDuration;
     private String songAlbum;
@@ -128,21 +129,20 @@ public class MusicPanel {
                                     java.nio.file.Files.write(albumArtFile.toPath(), albumArtBytes);
                                     albumArtPath = albumArtFile.getAbsolutePath();
                                 }
-                                actualSongFile = file; 
-                            } 
-                            else if (file.getName().endsWith(".priv")) {
+                                actualSongFile = file;
+                            } else if (file.getName().endsWith(".priv")) {
                                 Musica musica = admin.cargarMusica(file.getAbsolutePath());
                                 if (musica != null) {
                                     title = musica.getTitulo();
                                     artist = musica.getArtista();
                                     albumPath = musica.getAlbum();
                                     albumArtPath = musica.getCoverPath();
-                                    actualSongFile = new File(musica.getRuta()); 
+                                    actualSongFile = new File(musica.getRuta());
                                 }
                             }
 
                             if (title.toLowerCase().contains(searchText) || artist.toLowerCase().contains(searchText)) {
-                                addSongToPanel(title, albumPath, artist, albumArtPath, actualSongFile); 
+                                addSongToPanel(title, albumPath, artist, albumArtPath, actualSongFile);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -181,10 +181,10 @@ public class MusicPanel {
             albumArtPath = albumArtFile.getAbsolutePath();
         }
 
-        addSongToPanel(title, album,artist, albumArtPath, file);
+        addSongToPanel(title, album, artist, albumArtPath, file);
     }
-    
-        private void loadMusicFiles() {
+
+    private void loadMusicFiles() {
         File musicDirectory = new File(MUSIC_DIRECTORY);
         if (musicDirectory.exists() && musicDirectory.isDirectory()) {
             File[] files = musicDirectory.listFiles((dir, name)
@@ -231,7 +231,7 @@ public class MusicPanel {
 
                 File actualFile = new File(actualSongPath);
                 if (actualFile.exists()) {
-                    addSongToPanel(title, album,artist, albumArtPath, actualFile);
+                    addSongToPanel(title, album, artist, albumArtPath, actualFile);
                 } else {
                     System.err.println("The referenced song file does not exist: " + actualSongPath);
                 }
@@ -243,7 +243,8 @@ public class MusicPanel {
             e.printStackTrace();
         }
     }
-    private void addSongToPanel(String title, String album ,String artist, String albumArtPath, File file) {
+
+    private void addSongToPanel(String title, String album, String artist, String albumArtPath, File file) {
 
         JPanel songPanel = new JPanel(new BorderLayout());
         songPanel.setBackground(Color.DARK_GRAY);
@@ -261,7 +262,11 @@ public class MusicPanel {
 
         songPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                showNowPlayingPanel(title, album, artist, albumArtPath , file);
+                if (nowPlayingDialog != null) {
+                    nowPlayingDialog.dispose();
+                    stopMusic();
+                }
+                showNowPlayingPanel(title, album, artist, albumArtPath, file);
             }
         });
 
@@ -270,7 +275,7 @@ public class MusicPanel {
     }
 
     private void showNowPlayingPanel(String songTitle, String album, String artistName, String albumArtPath, File file) {
-        JFrame nowPlayingDialog = new JFrame("Now Playing");
+        nowPlayingDialog = new JFrame("Now Playing");
         nowPlayingDialog.setLayout(new BorderLayout());
 
         nowPlayingDialog.setSize(400, 500);
@@ -297,7 +302,7 @@ public class MusicPanel {
 
         // Song Info
         JPanel songInfoPanel = new JPanel();
-        songInfoPanel.setLayout(new GridLayout(3, 1)); 
+        songInfoPanel.setLayout(new GridLayout(3, 1));
         songInfoPanel.setBackground(Color.BLACK);
 
         JLabel titleLabel = new JLabel(songTitle, SwingConstants.CENTER);
@@ -308,12 +313,12 @@ public class MusicPanel {
         artistLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         artistLabel.setForeground(Color.GRAY);
 
-        JLabel albumLabel = new JLabel(album, SwingConstants.CENTER); 
+        JLabel albumLabel = new JLabel(album, SwingConstants.CENTER);
         albumLabel.setFont(new Font("Arial", Font.ITALIC, 16));
         albumLabel.setForeground(Color.LIGHT_GRAY);
 
         songInfoPanel.add(titleLabel);
-        songInfoPanel.add(albumLabel); 
+        songInfoPanel.add(albumLabel);
         songInfoPanel.add(artistLabel);
 
         JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -375,7 +380,7 @@ public class MusicPanel {
                 }
 
                 try {
-                    String albumArtPathToUse = (albumArtPath != null && !albumArtPath.isEmpty()) ? albumArtPath : "default/cover.png"; 
+                    String albumArtPathToUse = (albumArtPath != null && !albumArtPath.isEmpty()) ? albumArtPath : "default/cover.png";
                     Musica newMusica = new Musica(
                             musicDirectoryPath,
                             songTitle,

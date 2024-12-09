@@ -110,28 +110,6 @@ public class Administrador {
         return usuarios;
     }
 
-    public boolean borrarUsuario(String username) {
-        Usuarios user = Buscar(username);
-        if (user != null) {
-            if (user.hacerBorrar()) {
-                usuarios.remove(user);
-                try {
-                    guardarUsuarios();
-                    System.out.println("User " + username + " deleted successfully.");
-                    return true;
-                } catch (IOException e) {
-                    System.out.println("Error saving updated user list: " + e.getMessage());
-                    return false;
-                }
-            } else {
-                System.out.println("Failed to delete user files for " + username);
-                return false;
-            }
-        }
-        System.out.println("User not found: " + username);
-        return false;
-    }
-
     // ----  FUNCIONES DE CHAT GENERAL Y PERSONAL
     public void GuardarMChat(String message) throws IOException {
         String chatFile = ("chat/generalChat.priv");

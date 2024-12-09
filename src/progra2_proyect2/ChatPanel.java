@@ -172,45 +172,48 @@ public class ChatPanel {
         return contentPanel;
     }
 
-    void updateUserList() {
-        ArrayList<Usuarios> usuarios = manager.getUsuarios();
-        userButtonPanel.removeAll();
+   void updateUserList() {
+    ArrayList<Usuarios> usuarios = manager.getUsuarios();
+    userButtonPanel.removeAll();
 
-        for (Usuarios user : usuarios) {
-            try {
-                user.cargarUsuario();
+    for (Usuarios user : usuarios) {
+        try {
+            user.cargarUsuario();
 
-                if (!user.getNombre().equals(manager.getUsernameInSession())) {
-                    String status = user.getActivo() ? "Active" : "Offline";
-                    String buttonLabel = user.getNombre() + " - " + status;
+            if (!user.getNombre().equals(manager.getUsernameInSession())) {
+                // Determine the user's role using the STATUS enum
+                STATUS userRole = user.getActivo() ? STATUS.ONLINE : STATUS.OFFLINE;
+                String status = userRole.getStatus();  // Use the string status
 
-                    JButton userButton = new JButton(buttonLabel);
-                    userButton.setFont(new Font("Arial", Font.PLAIN, 18));
-                    userButton.setBackground(Color.DARK_GRAY);
-                    userButton.setForeground(Color.WHITE);
-                    userButton.setFocusPainted(false);
-                    userButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                String buttonLabel = user.getNombre() + " - " + status;
 
-                    userButton.setPreferredSize(new Dimension(180, 40));
-                    userButton.setMaximumSize(new Dimension(180, 40));
-                    userButton.setMinimumSize(new Dimension(180, 40));
+                JButton userButton = new JButton(buttonLabel);
+                userButton.setFont(new Font("Arial", Font.PLAIN, 18));
+                userButton.setBackground(Color.DARK_GRAY);
+                userButton.setForeground(Color.WHITE);
+                userButton.setFocusPainted(false);
+                userButton.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-                    userButton.addActionListener(e -> {
-                        showUserProfilePopup(user);
-                    });
+                userButton.setPreferredSize(new Dimension(180, 40));
+                userButton.setMaximumSize(new Dimension(180, 40));
+                userButton.setMinimumSize(new Dimension(180, 40));
 
-                    userButtonPanel.add(userButton);
-                    userButtonPanel.add(Box.createVerticalStrut(10));
-                }
-            } catch (IOException e) {
-                System.out.println("Error loading user data for " + user.getNombre() + ": " + e.getMessage());
+                userButton.addActionListener(e -> {
+                    showUserProfilePopup(user);
+                });
+
+                userButtonPanel.add(userButton);
+                userButtonPanel.add(Box.createVerticalStrut(10));
             }
+        } catch (IOException e) {
+            System.out.println("Error loading user data for " + user.getNombre() + ": " + e.getMessage());
         }
-
-        userButtonPanel.revalidate();
-        userButtonPanel.repaint();
-        System.out.println("updated list!");
     }
+
+    userButtonPanel.revalidate();
+    userButtonPanel.repaint();
+    System.out.println("updated list!");
+}
 
     private void showUserProfilePopup(Usuarios user) {
         JDialog profileDialog = new JDialog((Frame) null, "Profile - " + user.getNombre(), true);

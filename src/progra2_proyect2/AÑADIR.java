@@ -368,7 +368,6 @@ public class AÑADIR {
     }
 
     private void addRow(JPanel panel, GridBagConstraints gbc, String labelText, JComponent component) {
-        // Label
         JLabel label = new JLabel(labelText);
         label.setForeground(Color.WHITE);
         label.setFont(new Font("Arial", Font.PLAIN, 18));
