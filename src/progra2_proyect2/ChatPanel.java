@@ -181,9 +181,9 @@ public class ChatPanel {
             user.cargarUsuario();
 
             if (!user.getNombre().equals(manager.getUsernameInSession())) {
-                // Determine the user's role using the STATUS enum
+
                 STATUS userRole = user.getActivo() ? STATUS.ONLINE : STATUS.OFFLINE;
-                String status = userRole.getStatus();  // Use the string status
+                String status = userRole.getStatus();  
 
                 String buttonLabel = user.getNombre() + " - " + status;
 
