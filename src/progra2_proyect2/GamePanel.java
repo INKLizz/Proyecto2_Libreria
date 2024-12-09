@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Laura Sabillon
+ * @author Cristina Sabillon
  */
 import javax.swing.*;
 import java.awt.*;
