@@ -7,8 +7,6 @@ package progra2_proyect2;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -55,7 +53,7 @@ public class AÑADIR {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel titleLabel = new JLabel("Create a Game");
+        JLabel titleLabel = new JLabel("Crear Juego");
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -75,7 +73,7 @@ public class AÑADIR {
         addRow(panel, gbc, "Género:", generoField);
         addRow(panel, gbc, "Desarrollador:", desarrolladorField);
 
-        JButton iconButton = new JButton("Select Icon");
+        JButton iconButton = new JButton("Escoger Icon");
         iconButton.setForeground(Color.BLACK);
         iconButton.setBackground(Color.WHITE);
         iconButton.setBorder(new LineBorder(Color.BLACK, 2));
@@ -139,7 +137,7 @@ public class AÑADIR {
 
         addRow(panel, gbc, "Fecha de Lanzamiento:", datePanel);
 
-        JButton createButton = new JButton("Create Game");
+        JButton createButton = new JButton("CREAR JUEGO");
         createButton.setForeground(Color.WHITE);
         createButton.setBackground(Color.BLACK);
         createButton.setBorder(new LineBorder(Color.WHITE, 2));
@@ -353,6 +351,8 @@ public class AÑADIR {
                 artist.setText("");
                 album.setText("");
                 textField5.setText("");
+                ikon = null;
+                ruta = null;
             }
         });
 
