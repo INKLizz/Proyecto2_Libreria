@@ -11,7 +11,7 @@ package progra2_proyect2;
 import java.io.*;
 import java.util.*;
 
-public class Usuarios {
+public class Usuarios implements Usuarios_Interfaz{
 
     //USER
     private String nombre;
@@ -71,6 +71,7 @@ public class Usuarios {
         }
     }
 
+    @Override
     public final String getIcon() {
         return icon;
     }
@@ -91,6 +92,7 @@ public class Usuarios {
         this.description = description;
     }
 
+    @Override
     public void guardarUsuario() throws IOException {
         users.seek(0);
         users.writeUTF(nombre);
@@ -101,6 +103,7 @@ public class Usuarios {
         users.writeUTF(icon);
     }
 
+    @Override
     public void cargarUsuario() throws IOException {
         users.seek(0);
 
@@ -112,6 +115,7 @@ public class Usuarios {
         icon = users.readUTF();
     }
 
+    @Override
     public void guardarEstadoActivo() throws IOException {
         users.seek(0);
         users.writeBoolean(activo);
@@ -122,6 +126,7 @@ public class Usuarios {
         return users.readBoolean();
     }
 
+    @Override
     public String getNombre() {
         return nombre;
     }
