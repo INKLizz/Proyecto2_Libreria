@@ -58,7 +58,6 @@ public class SubMenu extends JFrame {
     ImageIcon download = new ImageIcon("DefaultIMAGE/download.png");
     private static final String DEFAULT_IMAGE = "DefaultIMAGE/neo.jpg";
 
-    // Constructor
     SubMenu(Administrador manager) {
         add = new AÑADIR();
         this.manager = manager;
@@ -104,7 +103,6 @@ public class SubMenu extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Common buttons
         JButton musica = createButton("MUSICA");
         JButton juegos = createButton("JUEGOS");
         JButton chat = createButton("CHAT");
@@ -218,7 +216,6 @@ public class SubMenu extends JFrame {
         usernameLabel.setFont(new Font("Arial", Font.BOLD, 18));
         JLabel descriptionLabel = new JLabel("", SwingConstants.LEFT);
 
-        // Load user description
         try {
             use.cargarUsuario();
             String desc = use.getDescription();
