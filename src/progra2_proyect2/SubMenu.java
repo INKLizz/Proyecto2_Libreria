@@ -37,6 +37,7 @@ public class SubMenu extends JFrame {
     private boolean isAdmin = false;
 
     //CREACION DE PANELES
+    private JFrame frame;
     private JFrame nowPlayingDialog;
     private JPanel musicListPanel;
     private JPanel songListPanel;
@@ -472,7 +473,10 @@ public class SubMenu extends JFrame {
 
         gamePanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                showGameDetailsDialog(juego);
+                if (frame != null){
+                    frame.dispose();
+                }
+                showGameDetailsFrame(juego);
             }
         });
 
@@ -515,11 +519,11 @@ public class SubMenu extends JFrame {
         return sdf.format(date);
     }
 
-    private void showGameDetailsDialog(Juego juego) {
-        JDialog dialog = new JDialog();
-        dialog.setTitle("Información del Juego");
-        dialog.setSize(720, 450);
-        dialog.setLayout(new BorderLayout());
+    private void showGameDetailsFrame(Juego juego) {
+        frame = new JFrame("Información del Juego");
+        frame.setSize(720, 450);
+        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  
 
         JPanel detailsPanel = new JPanel(new GridLayout(4, 1, 5, 5));
         detailsPanel.setBackground(Color.BLACK);
@@ -567,7 +571,9 @@ public class SubMenu extends JFrame {
         delete.setIcon(iconG);
         delete.setBackground(Color.WHITE);
         delete.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+
         String userDirectoryPath = "usuarios/" + manager.getUsernameInSession() + "/game/";
+
         delete.addActionListener(e -> {
             int option = JOptionPane.showConfirmDialog(
                     null,
@@ -590,7 +596,7 @@ public class SubMenu extends JFrame {
 
                     manager.borrarJuego(filePath);
 
-                    dialog.dispose();
+                    frame.dispose();  
 
                     contentPanel.removeAll();
                     contentPanel.add(createSteamPanel());
@@ -608,11 +614,11 @@ public class SubMenu extends JFrame {
 
         bottomPanel.add(delete, BorderLayout.CENTER);
 
-        dialog.add(mainPanel, BorderLayout.CENTER);
-        dialog.add(bottomPanel, BorderLayout.SOUTH);
+        frame.add(mainPanel, BorderLayout.CENTER);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
 
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+        frame.setLocationRelativeTo(null); 
+        frame.setVisible(true); 
     }
 
     private void showNowPlayingPanel(Musica musica, File file) {
@@ -641,7 +647,7 @@ public class SubMenu extends JFrame {
         }
 
         JPanel songInfoPanel = new JPanel();
-        songInfoPanel.setLayout(new GridLayout(3, 1));
+        songInfoPanel.setLayout(new GridLayout(4, 1));
         songInfoPanel.setBackground(Color.BLACK);
 
         JLabel titleLabel = new JLabel(musica.getTitulo(), SwingConstants.CENTER);
@@ -656,9 +662,14 @@ public class SubMenu extends JFrame {
         albumLabel.setFont(new Font("Arial", Font.ITALIC, 16));
         albumLabel.setForeground(Color.LIGHT_GRAY);
 
+        JLabel durar = new JLabel("Duracion (segundos) :" + musica.getDuracion(), SwingConstants.CENTER);
+        albumLabel.setFont(new Font("Arial", Font.ITALIC, 16));
+        albumLabel.setForeground(Color.LIGHT_GRAY);
+
         songInfoPanel.add(titleLabel);
         songInfoPanel.add(albumLabel);
         songInfoPanel.add(artistLabel);
+        songInfoPanel.add(durar);
 
         // BUTTONS
         JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
@@ -848,6 +859,12 @@ public class SubMenu extends JFrame {
         Usuarios user = manager.InSession();
         if (user != null) {
             user.setActivo(false);
+            try {
+                user.guardarUsuario();
+                user.cargarUsuario();
+            } catch (IOException e) {
+                System.out.println("se desactivo el usuario!!!!!");
+            }
         }
         Main main = new Main(manager);
         main.setVisible(true);

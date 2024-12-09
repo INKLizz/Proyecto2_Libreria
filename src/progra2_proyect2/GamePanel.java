@@ -31,6 +31,7 @@ import java.util.List;
 
 public class GamePanel {
 
+    private JFrame frame;
     private Administrador admin;
     private Juego juego;
     private static final String GAMES_DIRECTORY = "games/";
@@ -68,8 +69,8 @@ public class GamePanel {
 
         JPanel currentRowPanel = null;
 
-        for (int indice = 0; indice < juegos.size(); indice++) {
-            if (indice % 3 == 0) {
+        for (int i = 0; i < juegos.size(); i++) {
+            if (i % 3 == 0) {
                 if (currentRowPanel != null) {
                     gamesListPanel.add(currentRowPanel);
                 }
@@ -77,7 +78,7 @@ public class GamePanel {
                 currentRowPanel.setBackground(Color.BLACK);
             }
 
-            Juego juego = juegos.get(indice);
+            Juego juego = juegos.get(i);
             JPanel gamePanel = createGamePanel(juego);
             currentRowPanel.add(gamePanel);
         }
@@ -191,7 +192,10 @@ public class GamePanel {
 
         gamePanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                showGameDetailsDialog(juego);
+                if (frame != null) {
+                    frame.dispose();
+                }
+                showGameDetailsFrame(juego);
             }
         });
 
@@ -203,11 +207,11 @@ public class GamePanel {
         return sdf.format(date);
     }
 
-    private void showGameDetailsDialog(Juego juego) {
-        JDialog dialog = new JDialog();
-        dialog.setTitle("Información del Juego");
-        dialog.setSize(720, 450);
-        dialog.setLayout(new BorderLayout());
+    private void showGameDetailsFrame(Juego juego) {
+        frame = new JFrame("Información del Juego");
+        frame.setSize(720, 450);
+        frame.setLayout(new BorderLayout());
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel detailsPanel = new JPanel(new GridLayout(4, 1, 5, 5));
         detailsPanel.setBackground(Color.BLACK);
@@ -276,12 +280,12 @@ public class GamePanel {
                 File gameFile = new File(gameFilePath);
                 if (gameFile.exists()) {
                     JOptionPane.showMessageDialog(null, "El juego ya está guardado en su librería!");
-                    return; 
+                    return;
                 }
 
                 try {
                     juego.setRuta(privateFilePath);
-                    juego.initGame(); 
+                    juego.initGame();
                     JOptionPane.showMessageDialog(null, "Se guardó el juego en su librería!");
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -294,11 +298,11 @@ public class GamePanel {
 
         bottomPanel.add(download, BorderLayout.CENTER);
 
-        dialog.add(mainPanel, BorderLayout.CENTER);
-        dialog.add(bottomPanel, BorderLayout.SOUTH);
+        frame.add(mainPanel, BorderLayout.CENTER);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
 
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     private ImageIcon loadGameIcon(String iconPath, int width, int height) {
