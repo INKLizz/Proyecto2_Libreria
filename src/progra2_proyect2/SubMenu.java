@@ -756,7 +756,6 @@ public class SubMenu extends JFrame {
                         songButton.setPreferredSize(new Dimension(600, 40));
                         songButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
 
-                        // Add the action listener
                         songButton.addActionListener(e -> {
                             if(nowPlayingDialog != null){
                                 nowPlayingDialog.dispose();
@@ -765,10 +764,9 @@ public class SubMenu extends JFrame {
                             showNowPlayingPanel(musica, musicFile);
                         });
 
-                        // Add the button to the panel
                         SwingUtilities.invokeLater(() -> {
                             songListPanel.add(songButton);
-                            songListPanel.add(Box.createVerticalStrut(10)); // Adds spacing
+                            songListPanel.add(Box.createVerticalStrut(10)); 
                             songListPanel.revalidate();
                             songListPanel.repaint();
                         });
