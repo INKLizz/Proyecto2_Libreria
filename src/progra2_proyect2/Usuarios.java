@@ -143,5 +143,4 @@ public class Usuarios implements Usuarios_Interfaz{
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-
 }

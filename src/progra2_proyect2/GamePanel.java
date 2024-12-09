@@ -68,8 +68,8 @@ public class GamePanel {
 
         JPanel currentRowPanel = null;
 
-        for (int i = 0; i < juegos.size(); i++) {
-            if (i % 3 == 0) {
+        for (int indice = 0; indice < juegos.size(); indice++) {
+            if (indice % 3 == 0) {
                 if (currentRowPanel != null) {
                     gamesListPanel.add(currentRowPanel);
                 }
@@ -77,7 +77,7 @@ public class GamePanel {
                 currentRowPanel.setBackground(Color.BLACK);
             }
 
-            Juego juego = juegos.get(i);
+            Juego juego = juegos.get(indice);
             JPanel gamePanel = createGamePanel(juego);
             currentRowPanel.add(gamePanel);
         }
@@ -311,5 +311,4 @@ public class GamePanel {
         Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
-
 }
